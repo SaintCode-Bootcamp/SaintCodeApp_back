@@ -18,9 +18,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "seed:users": "ts-node ./prisma/userSeed.ts",
-    "seed:course": "ts-node ./prisma/courseSeed.ts",
-    "seed:chapter": "ts-node ./prisma/chapterSeed.ts"
+    "seed:users": "ts-node prisma/seeds/userSeed.ts",
+    "seed:course": "ts-node prisma/seeds/courseSeed.ts",
+    "seed:chapter": "ts-node prisma/seeds/chapterSeed.ts",
+    "seed:lecture": "ts-node prisma/seeds/lectureSeed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
