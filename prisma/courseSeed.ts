@@ -9,6 +9,7 @@ async function main() {
     where: { id: "64ecd87248bde21b3c5d63dd" },
     update: {},
     create: {
+      id: "64ecd87248bde21b3c5d63dd",
       title: "Как создать свой TODO",
       desc: "Здесь весело!"
     }
@@ -18,6 +19,7 @@ async function main() {
     where: { id: "64ecd88d48bde21b3c5d63de" },
     update: {},
     create: {
+      id: "64ecd88d48bde21b3c5d63de",
       title: "А это курс по Fetch тестовый",
       desc: "Это печально ( "
     }
