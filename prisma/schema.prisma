@@ -127,8 +127,10 @@ model task_choice {
 }
 
 model task_fill_blanks {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  title   String
-  content String
-  answers String[]
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  content     String
+  answers     String[]
+  template    String?
+  rightAnswer String
 }

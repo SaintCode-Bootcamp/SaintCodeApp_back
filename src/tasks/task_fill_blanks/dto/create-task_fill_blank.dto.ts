@@ -28,4 +28,22 @@ export class CreateTaskFillBlankDto {
     example: [">", "div", "</b>"]
   })
   answers: string[];
+
+  @ApiProperty({
+    description: "Template for answer",
+    required: false,
+    type: String,
+    nullable: false,
+    example: " <div{1} <b> Привет! <{2}> {3}"
+  })
+  template: string
+
+  @ApiProperty({
+    description: "Right answer",
+    required: true,
+    type: String,
+    nullable: false,
+    example: "<div><b>Привет!</b></div> "
+  })
+  rightAnswer: string
 }
