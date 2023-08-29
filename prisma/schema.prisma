@@ -16,27 +16,27 @@ type TaskAnswers {
 }
 
 type TaskAnswersQ1 {
-  is_correct Boolean @default(value: false)
+  is_correct Boolean
   title      String
 }
 
 type TaskAnswersQ2 {
-  is_correct Boolean @default(value: false)
+  is_correct Boolean
   title      String
 }
 
 type TaskAnswersQ3 {
-  is_correct Boolean @default(value: false)
+  is_correct Boolean
   title      String
 }
 
 type TaskAnswersQ4 {
-  is_correct Boolean @default(value: false)
+  is_correct Boolean
   title      String
 }
 
 type TaskAnswersQ5 {
-  is_correct Boolean @default(value: false)
+  is_correct Boolean
   title      String
 }
 
@@ -106,15 +106,29 @@ model user {
 }
 
 model user_level_stat {
-  id               String     @id @default(auto()) @map("_id") @db.ObjectId
-  attemp_count     Int?       @default(value: 1)
-  end_at           DateTime?  @db.Date
-  is_complete      Boolean?   @default(value: false)
-  level_content_id String
-  pause_at         DateTime[] @default([])
-  start_at         DateTime?  @default(value: now()) @db.Date
-  user_id          String     @db.ObjectId
-  browsers         String[]   @default([])
-  devices          String[]   @default([])
+  id                 String     @id @default(auto()) @map("_id") @db.ObjectId
+  attemp_count       Int?       @default(value: 1)
+  end_at             DateTime?  @db.Date
+  is_complete        Boolean?   @default(value: false)
+  level_content_id   String
+  pause_at           DateTime[] @default([])
+  start_at           DateTime?  @default(value: now()) @db.Date
+  user_id            String     @db.ObjectId
+  browsers           String[]   @default([])
+  devices            String[]   @default([])
   task_wrong_answers Json
+}
+
+model task_choice {
+  id      String        @id @default(auto()) @map("_id") @db.ObjectId
+  title   String
+  content String
+  answers TaskAnswers[]
+}
+
+model task_fill_blanks {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  title   String
+  content String
+  answers String[]
 }
