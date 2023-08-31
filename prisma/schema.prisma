@@ -79,6 +79,8 @@ model level_content {
   lecture_id       String? @db.ObjectId
   order            Int?    @default(value: 0)
   task_id          String? @db.ObjectId
+
+  user_stats user_level_stat[]
 }
 
 model task {
@@ -103,6 +105,8 @@ model user {
   image_github String?
   last_log_in  DateTime? @updatedAt @db.Date
   name         String
+
+  stat user_level_stat[]
 }
 
 model user_level_stat {
@@ -110,20 +114,24 @@ model user_level_stat {
   attemp_count       Int?       @default(value: 1)
   end_at             DateTime?  @db.Date
   is_complete        Boolean?   @default(value: false)
-  level_content_id   String
   pause_at           DateTime[] @default([])
   start_at           DateTime?  @default(value: now()) @db.Date
-  user_id            String     @db.ObjectId
   browsers           String[]   @default([])
   devices            String[]   @default([])
   task_wrong_answers Json
+
+  user_id String @db.ObjectId
+  author  user   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+  level_content_id String        @db.ObjectId
+  level_content    level_content @relation(references: [id], fields: [level_content_id], onDelete: Cascade)
 }
 
 model task_choice {
   id      String        @id @default(auto()) @map("_id") @db.ObjectId
   title   String
   content String
-  answers TaskAnswers[]
+  answers TaskAnswers
 }
 
 model task_fill_blanks {
@@ -132,5 +140,12 @@ model task_fill_blanks {
   content     String
   answers     String[]
   template    String?
-  rightAnswer String
+  rightAnswer String?
+}
+
+model task_input {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  title   String
+  content String
+  answers String
 }
