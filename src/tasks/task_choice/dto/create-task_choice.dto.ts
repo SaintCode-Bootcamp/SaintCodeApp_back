@@ -49,5 +49,5 @@ export class CreateTaskChoiceDto {
       "    }\n" +
       "  }"
   })
-  answers: TaskAnswers[];
+  answers: TaskAnswers;
 }

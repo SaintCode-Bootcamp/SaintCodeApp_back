@@ -23,7 +23,7 @@ export class CreateTaskFillBlankDto {
   @ApiProperty({
     description: "Answers",
     required: true,
-    type: [],
+    type: String,
     nullable: false,
     example: [">", "div", "</b>"]
   })

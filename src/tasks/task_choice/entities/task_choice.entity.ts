@@ -30,7 +30,7 @@ export class TaskChoiceEntity implements task_choice {
   @ApiProperty({
     description: "Questions and answers",
     required: true,
-    type: [],
+    type: JSON,
     nullable: false,
     example: "{\n" +
       "    \"q1\": {\n" +
@@ -55,6 +55,6 @@ export class TaskChoiceEntity implements task_choice {
       "    }\n" +
       "  }"
   })
-  answers:  TaskAnswers[];
+  answers:  TaskAnswers;
 
 }

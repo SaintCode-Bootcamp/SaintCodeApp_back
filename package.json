@@ -21,7 +21,8 @@
     "seed:users": "ts-node prisma/seeds/userSeed.ts",
     "seed:course": "ts-node prisma/seeds/courseSeed.ts",
     "seed:chapter": "ts-node prisma/seeds/chapterSeed.ts",
-    "seed:lecture": "ts-node prisma/seeds/lectureSeed.ts"
+    "seed:lecture": "ts-node prisma/seeds/lectureSeed.ts",
+    "seed:task": "ts-node prisma/seeds/taskSeed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

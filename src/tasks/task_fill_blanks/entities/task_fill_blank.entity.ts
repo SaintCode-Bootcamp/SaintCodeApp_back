@@ -30,7 +30,7 @@ export class TaskFillBlankEntity implements task_fill_blanks {
   @ApiProperty({
     description: "Answers",
     required: true,
-    type: [],
+    type: String,
     nullable: false,
     example: [">", "div", "</b>"]
   })
@@ -53,5 +53,5 @@ export class TaskFillBlankEntity implements task_fill_blanks {
     nullable: false,
     example: "<div><b>Привет!</b></div> "
   })
-  rightAnswer: string
+  rightAnswer: string;
 }
