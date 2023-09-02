@@ -10,15 +10,6 @@ export class TaskFillBlankEntity implements task_fill_blanks {
   id: string;
 
   @ApiProperty({
-    description: "Title task",
-    required: true,
-    type: String,
-    nullable: false,
-    example: "Вставьте пропуску в строку"
-  })
-  title: string;
-
-  @ApiProperty({
     description: "Content of task",
     required: true,
     type: String,
@@ -54,4 +45,13 @@ export class TaskFillBlankEntity implements task_fill_blanks {
     example: "<div><b>Привет!</b></div> "
   })
   rightAnswer: string;
+
+  @ApiProperty({
+    description: "ID task_abstract",
+    required: true,
+    type: String,
+    nullable: false,
+    example: "64e264a3980ffe56f1c0c417"
+  })
+  task_abstract_id: string;
 }

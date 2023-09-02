@@ -10,16 +10,7 @@ export class TaskChoiceEntity implements task_choice {
   id: string;
 
   @ApiProperty({
-    description: "Title task",
-    required: true,
-    type: String,
-    nullable: false,
-    example: "Типы данных №1"
-  })
-  title: string;
-
-  @ApiProperty({
-    description: "Content of task",
+    description: "Содержание задания",
     required: true,
     type: String,
     nullable: false,
@@ -55,6 +46,15 @@ export class TaskChoiceEntity implements task_choice {
       "    }\n" +
       "  }"
   })
-  answers:  TaskAnswers;
+  answers: TaskAnswers;
+
+  @ApiProperty({
+    description: "ID task_abstract",
+    required: true,
+    type: String,
+    nullable: false,
+    example: "64e264a3980ffe56f1c0c417"
+  })
+  task_abstract_id: string;
 
 }

@@ -3,15 +3,6 @@ import { ApiProperty } from "@nestjs/swagger";
 export class CreateTaskFillBlankDto {
 
   @ApiProperty({
-    description: "Title task",
-    required: true,
-    type: String,
-    nullable: false,
-    example: "Вставьте пропуску в строку"
-  })
-  title: string;
-
-  @ApiProperty({
     description: "Content of task",
     required: true,
     type: String,
@@ -34,9 +25,10 @@ export class CreateTaskFillBlankDto {
     required: false,
     type: String,
     nullable: false,
-    example: " <div{1} <b> Привет! <{2}> {3}"
+    example: "<b> <div{1} Привет! <{2}> {3}"
   })
-  template: string
+  template: string;
+
 
   @ApiProperty({
     description: "Right answer",
@@ -45,5 +37,14 @@ export class CreateTaskFillBlankDto {
     nullable: false,
     example: "<div><b>Привет!</b></div> "
   })
-  rightAnswer: string
+  rightAnswer: string;
+
+  @ApiProperty({
+    description: "ID task_abstract",
+    required: true,
+    type: String,
+    nullable: false,
+    example: "64e264a3980ffe56f1c0c417"
+  })
+  task_abstract_id: string;
 }

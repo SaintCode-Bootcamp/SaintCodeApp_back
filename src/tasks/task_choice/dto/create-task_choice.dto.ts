@@ -4,16 +4,7 @@ import { TaskAnswers } from "@prisma/client";
 export class CreateTaskChoiceDto {
 
   @ApiProperty({
-    description: "Title task",
-    required: true,
-    type: String,
-    nullable: false,
-    example: "Типы данных №1"
-  })
-  title: string;
-
-  @ApiProperty({
-    description: "Content of task",
+    description: "Содержание задания",
     required: true,
     type: String,
     nullable: false,
@@ -24,7 +15,7 @@ export class CreateTaskChoiceDto {
   @ApiProperty({
     description: "Questions and answers",
     required: true,
-    type: [],
+    type: JSON,
     nullable: false,
     example: "{\n" +
       "    \"q1\": {\n" +
@@ -50,4 +41,13 @@ export class CreateTaskChoiceDto {
       "  }"
   })
   answers: TaskAnswers;
+
+  @ApiProperty({
+    description: "ID task_abstract",
+    required: true,
+    type: String,
+    nullable: false,
+    example: "64e264a3980ffe56f1c0c417"
+  })
+  task_abstract_id: string;
 }
