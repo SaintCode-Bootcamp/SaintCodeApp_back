@@ -44,15 +44,19 @@ model course {
   id    String  @id @default(auto()) @map("_id") @db.ObjectId
   desc  String?
   title String
+
+  chapters chapter[]
 }
 
 // Chapter
 model chapter {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  desc  String?
+  order Int?    @default(value: 0)
+
   course_id String  @db.ObjectId
-  desc      String?
-  order     Int?    @default(value: 0)
-  title     String
+  course    course? @relation(references: [id], fields: [course_id], onDelete: Cascade)
 }
 
 // Levels
@@ -62,31 +66,40 @@ model chapter_level {
   is_draft   Boolean? @default(value: true)
   order      Int?     @default(0)
   title      String
+
+  level_content level_content[]
 }
 
 // Content type of levels - lectures and tasks
 // one of lecture_id or task_id must be used
 
 model level_content {
-  id               String  @id @default(auto()) @map("_id") @db.ObjectId
-  chapter_level_id String  @db.ObjectId
-  lecture_id       String? @db.ObjectId
-  order            Int?    @default(value: 0)
-  task_id          String? @db.ObjectId
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  order Int?    @default(value: 0)
+  desc  String? @default("")
+
+  chapter_level_id String         @db.ObjectId
+  chapter_level    chapter_level? @relation(references: [id], fields: [chapter_level_id], onDelete: Cascade)
 
   user_stats user_level_stat[]
+  lectures   lecture[]
+  tasks      task_abstract[]
 }
 
 // Lecture in level
 model lecture {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
   content      String
   created_at   DateTime? @default(value: now()) @db.Date
+  updated_at   DateTime? @updatedAt @db.Date
   created_by   String?   @db.ObjectId
   is_draft     Boolean   @default(value: true)
   time_to_read Int?      @default(value: 0)
-  title        String
-  updated_at   DateTime? @updatedAt @db.Date
+
+
+  level_content_id String        @db.ObjectId
+  level_content    level_content? @relation(references: [id], fields: [level_content_id], onDelete: Cascade)
 }
 
 model user {
@@ -120,7 +133,7 @@ model user_level_stat {
   user_id String @db.ObjectId
   author  user   @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
-  level_content_id String        @db.ObjectId
+  level_content_id String         @db.ObjectId
   level_content    level_content? @relation(references: [id], fields: [level_content_id], onDelete: Cascade)
 }
 
@@ -129,21 +142,24 @@ model user_level_stat {
 //
 
 model task_abstract {
-  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
   name               String // for search
   title              String?
   type               TypeTask
-  display            Display  @default(LIST)
-  is_archive         Boolean? @default(value: true)
-  difficulty         Int?     @default(0)
-  total_solved       Int?     @default(0)
-  successful_solved  Int?     @default(0)
-  successful_percent Float?   @default(0.00)
+  display            Display   @default(LIST)
+  is_archive         Boolean?  @default(value: true)
+  difficulty         Int?      @default(0)
+  total_solved       Int?      @default(0)
+  successful_solved  Int?      @default(0)
+  successful_percent Float?    @default(0.00)
   created_at         DateTime? @default(value: now()) @db.Date
-  tags               String[] @default([])
+  tags               String[]  @default([])
 
   created_by String @db.ObjectId
   author     user?  @relation(references: [id], fields: [created_by], onDelete: Cascade)
+
+  level_content_id String        @db.ObjectId
+  level_content    level_content @relation(references: [id], fields: [level_content_id], onDelete: Cascade)
 
   tasks_choice      task_choice[]
   tasks_fill_blanks task_fill_blanks[]
@@ -164,11 +180,11 @@ enum TypeTask {
 }
 
 model task_choice {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  id      String      @id @default(auto()) @map("_id") @db.ObjectId
   content String
   answers TaskAnswers
 
-  task_abstract_id String        @db.ObjectId
+  task_abstract_id String         @db.ObjectId
   task_abstract    task_abstract? @relation(references: [id], fields: [task_abstract_id], onDelete: Cascade)
 }
 
@@ -179,7 +195,7 @@ model task_fill_blanks {
   template    String?
   rightAnswer String?
 
-  task_abstract_id String        @db.ObjectId
+  task_abstract_id String         @db.ObjectId
   task_abstract    task_abstract? @relation(references: [id], fields: [task_abstract_id], onDelete: Cascade)
 }
 
@@ -188,6 +204,6 @@ model task_input {
   content String
   answers String
 
-  task_abstract_id String        @db.ObjectId
+  task_abstract_id String         @db.ObjectId
   task_abstract    task_abstract? @relation(references: [id], fields: [task_abstract_id], onDelete: Cascade)
 }

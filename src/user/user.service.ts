@@ -38,6 +38,7 @@ export class UserService {
     const prisma = new PrismaClient();
 
     return prisma.user.findMany({
+
       select: {
         name: true,
         email: true,
@@ -46,21 +47,24 @@ export class UserService {
           select: {
             level_content_id: true,
             devices: true,
-            // level_content: {
-            //   select: {
-            //     lecture_id: true,
-            //     order: true
-            //   }
-            // }
+            id: true,
+            level_content: {
+              select: {
+                // lecture_id: true,
+                order: true
+              }
+            }
           },
+
+
           where: {
             is_complete: true
-          },
-
-
+          }
         }
+
+
       },
-      where: { id },
+      where: { id }
 
 
     });

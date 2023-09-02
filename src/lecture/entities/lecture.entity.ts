@@ -75,4 +75,13 @@ export class LectureEntity implements lecture {
     default: true
   })
   is_draft: boolean;
+
+  @ApiProperty({
+    description: "level_content_id ",
+    required: true,
+    type: String,
+    nullable: false,
+    example: "64de435a980ffe56f1c0c374",
+  })
+  level_content_id: string;
 }

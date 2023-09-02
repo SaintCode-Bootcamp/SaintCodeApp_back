@@ -4,6 +4,12 @@ import { ApiProperty } from "@nestjs/swagger";
 export class LevelContentEntity implements level_content {
 
   @ApiProperty({
+    description: "ID in mongo DB",
+    required: false
+  })
+  id: string;
+
+  @ApiProperty({
     description: "Chapter level ID. Object ID.",
     required: true,
     type: String,
@@ -13,22 +19,7 @@ export class LevelContentEntity implements level_content {
   chapter_level_id: string;
 
   @ApiProperty({
-    description: "ID in mongo DB",
-    required: false
-  })
-  id: string;
-
-  @ApiProperty({
-    description: "Lecture ID. ObjectID",
-    required: false,
-    type: String,
-    nullable: true,
-    example: "64d63ab1980ffe56f1c0c2f8"
-  })
-  lecture_id: string | null;
-
-  @ApiProperty({
-    description: "Order in level",
+    description: "Порядок в рамках chapter_level",
     required: false,
     type: Number,
     nullable: true,
@@ -38,12 +29,12 @@ export class LevelContentEntity implements level_content {
   order: number;
 
   @ApiProperty({
-    description: "Task ID (task_abstract). ObjectID",
+    description: "Описание",
     required: false,
     type: String,
     nullable: true,
-    example: "64e264a3980ffe56f1c0c417"
+    example: "Описание, если нужно"
   })
-  task_id: string | null;
+  desc: string | null;
 
 }

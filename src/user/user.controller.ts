@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { UserEntity } from "./entities/user.entity";
+import { UserLevelStatService } from "../user_level_stat/user_level_stat.service";
 
 @Controller('user')
 @ApiTags('User')
@@ -45,5 +46,10 @@ export class UserController {
   @ApiOkResponse({ type: UserEntity})
   remove(@Param('id') id: string) {
     return this.userService.remove(id);
+  }
+  @Get('/profile/:id')
+  @ApiOkResponse({ type: UserEntity})
+  profile(@Param('id') id: string) {
+   return this.userService.profile(id)
   }
 }
