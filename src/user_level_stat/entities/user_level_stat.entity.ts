@@ -111,4 +111,22 @@ export class UserLevelStatEntity implements user_level_stat {
     example: "64d63774980ffe56f1c0c2ef"
   })
   user_id: string;
+
+  @ApiProperty({
+    description: "Chapter level ID",
+    required: true,
+    type: String,
+    nullable: false,
+    example: "64d63774980ffe56f1c0c2ef"
+  })
+  chapter_level_id: string;
+
+  @ApiProperty({
+    description: "Chapter ID",
+    required: false,
+    type: String,
+    nullable: false,
+    example: "64d63774980ffe56f1c0c2ef"
+  })
+  chapter_id: string
 }

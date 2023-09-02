@@ -55,19 +55,24 @@ model chapter {
   desc  String?
   order Int?    @default(value: 0)
 
-  course_id String  @db.ObjectId
-  course    course? @relation(references: [id], fields: [course_id], onDelete: Cascade)
+  course_id       String            @db.ObjectId
+  course          course?           @relation(references: [id], fields: [course_id], onDelete: Cascade)
+  user_level_stat user_level_stat[]
+  chapter_level   chapter_level[]
 }
 
 // Levels
 model chapter_level {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  chapter_id String   @db.ObjectId
-  is_draft   Boolean? @default(value: true)
-  order      Int?     @default(0)
-  title      String
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  is_draft Boolean? @default(value: true)
+  order    Int?     @default(0)
+  title    String
 
-  level_content level_content[]
+  level_content   level_content[]
+  user_level_stat user_level_stat[]
+
+  chapter_id String   @db.ObjectId
+  chapter    chapter? @relation(references: [id], fields: [chapter_id], onDelete: Cascade)
 }
 
 // Content type of levels - lectures and tasks
@@ -97,8 +102,7 @@ model lecture {
   is_draft     Boolean   @default(value: true)
   time_to_read Int?      @default(value: 0)
 
-
-  level_content_id String        @db.ObjectId
+  level_content_id String         @db.ObjectId
   level_content    level_content? @relation(references: [id], fields: [level_content_id], onDelete: Cascade)
 }
 
@@ -135,6 +139,12 @@ model user_level_stat {
 
   level_content_id String         @db.ObjectId
   level_content    level_content? @relation(references: [id], fields: [level_content_id], onDelete: Cascade)
+
+  chapter_level_id String?        @db.ObjectId
+  chapter_level    chapter_level? @relation(references: [id], fields: [chapter_level_id], onDelete: SetNull)
+
+  chapter_id String?  @db.ObjectId
+  chapter    chapter? @relation(references: [id], fields: [chapter_level_id], onDelete: SetNull)
 }
 
 //
