@@ -13,6 +13,7 @@ import { TaskChoiceModule } from "./tasks/task_choice/task_choice.module";
 import { TaskFillBlanksModule } from './tasks/task_fill_blanks/task_fill_blanks.module';
 import { TaskInputModule } from './tasks/task_input/task_input.module';
 import { TaskAbstractModule } from './tasks/task_abstract/task_abstract.module';
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { TaskAbstractModule } from './tasks/task_abstract/task_abstract.module';
     TaskChoiceModule,
     TaskFillBlanksModule,
     TaskInputModule,
-    TaskAbstractModule],
+    TaskAbstractModule,
+    AuthModule],
   controllers: [AppController],
   providers: [AppService]
 })

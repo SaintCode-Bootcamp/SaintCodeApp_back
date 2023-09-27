@@ -17,8 +17,12 @@ export class UserService {
     return this.prisma.user.findMany();
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     return this.prisma.user.findUnique({ where: { id } });
+  }
+
+  async findByUsername(username: string) {
+    return this.prisma.user.findUnique({ where: { username } });
   }
 
   findToken(token: string) {
