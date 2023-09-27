@@ -117,6 +117,8 @@ model user {
   image_github String?
   last_log_in  DateTime? @updatedAt @db.Date
   name         String
+  username     String?   @unique
+  password     String?   @unique
 
   stat         user_level_stat[]
   author_tasks task_abstract[]
