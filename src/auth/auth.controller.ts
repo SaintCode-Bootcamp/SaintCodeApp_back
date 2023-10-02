@@ -10,4 +10,10 @@ export class AuthController {
   signIn(@Body() signInDto: Record<string, any>) {
     return this.authService.signIn(signInDto.username, signInDto.password);
   }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('login-social')
+  signInSocial(@Body() signInDto: Record<string, any>) {
+    return this.authService.signInSocial(signInDto.githubID, signInDto.googleID);
+  }
 }

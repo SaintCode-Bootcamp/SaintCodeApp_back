@@ -147,20 +147,20 @@ export class UserService {
     };
   }
 
-  // findUserBySocialID(githubID: string = null, googleID: string = null){
-  //   return this.prisma.user.findUnique({
-  //     where: {
-  //       OR: [
-  //         {
-  //           github_id: githubID
-  //         },
-  //         {
-  //           google_id: googleID
-  //         }
-  //       ]
-  //     }
-  //   })
-  // }
+  findUserBySocialID(githubID: string = null, googleID: string = null){
+    return this.prisma.user.findFirst({
+      where: {
+        OR: [
+          {
+            github_id: githubID
+          },
+          {
+            google_id: googleID
+          }
+        ]
+      }
+    })
+ }
 
 
 }

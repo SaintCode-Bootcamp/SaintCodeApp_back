@@ -21,14 +21,14 @@ export class AuthService {
     };
   }
 
-  // async signIn(githubID: string = null, googleID: string = null): Promise<any> {
-  //   const user = await this.usersService.findUserBySocialID(githubID, googleID);
-  //   if (user?.github_id !== githubID || user?.google_id !== googleID) {
-  //     throw new UnauthorizedException();
-  //   }
-  //   const { github_id,google_id, ...result } = user;
-  //   // TODO: Generate a JWT and return it here
-  //   // instead of the user object
-  //   return result;
-  // }
+  async signInSocial(githubID: string = null, googleID: string = null): Promise<any> {
+    const user = await this.usersService.findUserBySocialID(githubID, googleID);
+    if (user?.github_id !== githubID || user?.google_id !== googleID) {
+      throw new UnauthorizedException();
+    }
+    const { github_id,google_id, ...result } = user;
+    // TODO: Generate a JWT and return it here
+    // instead of the user object
+    return result;
+  }
 }
