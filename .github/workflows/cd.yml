@@ -23,6 +23,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
+          password: ${{ secrets.PASS }}
           port: 22
           script: |
             cd ~/home/app/
