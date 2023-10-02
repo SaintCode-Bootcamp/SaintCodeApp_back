@@ -29,5 +29,11 @@ jobs:
             cd /home/app/
             git pull origin main
             git status
+            nvm install 16.13
+            npm i -g @nestjs/cli
+            npm install prisma --save-dev
+            npm install pm2@latest -g
+            npm run build
+            npx prisma generate
             npm install --only=prod
-            pm2 restart app
+            pm2 start dist/src/main.js --name api
