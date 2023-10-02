@@ -3,12 +3,28 @@ import {course} from "@prisma/client"
 
 export class CourseEntity implements course{
 
-  @ApiProperty({ required: false })
-  id: string;
+  @ApiProperty({
+    description: "ID in mongo DB",
+    required: false
+  })
+  id: string | null;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({
+      description: "Description of course",
+      required: false,
+      type: String,
+      nullable: true,
+      example: "This is  best TODO of all TODO !!"
+    }
+  )
   desc: string | null;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({
+    description: "Name of course",
+    required: true,
+    type: String,
+    nullable: false,
+    example: "It's TODO app"
+  })
   title: string;
 }

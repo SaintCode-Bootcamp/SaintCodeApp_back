@@ -9,6 +9,7 @@ export class ChapterService {
   }
 
   create(createChapterDto: CreateChapterDto) {
+    // createChapterDto.order = this.getMaxCount(createChapterDto.course_id);
     return this.prisma.chapter.create({ data: createChapterDto });
   }
 
@@ -31,4 +32,27 @@ export class ChapterService {
   findByCourseId(courseId: string) {
     return this.prisma.chapter.findMany({ where: { course_id: courseId } });
   }
+
+  /**
+   * Get last order by course_id
+   * @param course_id
+   */
+  async getMaxOrderInCourse(course_id: string) {
+    const result = this.prisma.chapter.findMany(
+      {
+        select: {
+          order: true
+        },
+        orderBy: {
+          order: "desc"
+        },
+        where: {
+          course_id: course_id
+        }
+      });
+    return result.then(data => data[0]?.order);
+
+  }
+
+
 }

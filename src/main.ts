@@ -6,9 +6,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle("Api")
-    .setDescription("Для приложения по обучению JS =)")
-    .setVersion("0.1")
+    .setTitle("Code with SaintCode API")
+    .setDescription("Nest js + prisma")
+    .setVersion("0.2")
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

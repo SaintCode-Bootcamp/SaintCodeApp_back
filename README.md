@@ -66,7 +66,7 @@ $ npm run test:cov
 
 1.  Если возможно, использовать ` prisma db pull  ` см. https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/mongodb/introspection-typescript-mongodb
 Или обновлять таблицы вручную в файле `schema.prisma`
-3. `prisma generate ` - запустит процесс создания базовых файлов
+3. `npx prisma generate ` - запустит процесс создания базовых файлов
 4. создание сервиса и контроллеров - https://www.prisma.io/blog/nestjs-prisma-rest-api-7D056s1BmOL0#create-a-prisma-service
 5. создаем ресурсы
 ```bash

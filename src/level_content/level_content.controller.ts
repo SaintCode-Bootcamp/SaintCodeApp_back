@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from "@nestjs/common";
 import { LevelContentService } from "./level_content.service";
 import { CreateLevelContentDto } from "./dto/create-level_content.dto";
 import { UpdateLevelContentDto } from "./dto/update-level_content.dto";
@@ -6,12 +6,13 @@ import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { LevelContentEntity } from "./entities/level_content.entity";
 
 @Controller("level-content")
-@ApiTags('level-content')
+@ApiTags('Level content (Tasks or Lectures)')
 export class LevelContentController {
   constructor(private readonly levelContentService: LevelContentService) {
   }
 
   @ApiCreatedResponse({ type: LevelContentEntity })
+  @HttpCode(201)
   @Post()
   create(@Body() createLevelContentDto: CreateLevelContentDto) {
     return this.levelContentService.create(createLevelContentDto);

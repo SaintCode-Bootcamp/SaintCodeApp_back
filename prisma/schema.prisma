@@ -40,86 +40,180 @@ type TaskAnswersQ5 {
   title      String
 }
 
-type TaskWrongAnswers {
-  task_abstract_id String?
-  answer           Json?
-}
-
-model chapter {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  course_id String
-  desc      String
-  order     Int
-  title     String
-}
-
-model chapter_level {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  chapter_id String
-  is_draft   Boolean? @default(value: true)
-  order      Int
-  title      String
-}
-
 model course {
   id    String  @id @default(auto()) @map("_id") @db.ObjectId
   desc  String?
   title String
+
+  chapters chapter[]
 }
 
-model lecture {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  content      String
-  created_at   DateTime @default(value: now()) @db.Date
-  created_by   String
-  is_draft     Boolean
-  time_to_read Int
-  title        String
-  updated_at   DateTime @updatedAt @db.Date
+// Chapter
+model chapter {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  desc  String?
+  order Int?    @default(value: 0)
+
+  course_id       String            @db.ObjectId
+  course          course?           @relation(references: [id], fields: [course_id], onDelete: Cascade)
+  user_level_stat user_level_stat[]
+  chapter_level   chapter_level[]
 }
+
+// Levels
+model chapter_level {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  is_draft Boolean? @default(value: true)
+  order    Int?     @default(0)
+  title    String
+
+  level_content   level_content[]
+  user_level_stat user_level_stat[]
+
+  chapter_id String   @db.ObjectId
+  chapter    chapter? @relation(references: [id], fields: [chapter_id], onDelete: Cascade)
+}
+
+// Content type of levels - lectures and tasks
+// one of lecture_id or task_id must be used
 
 model level_content {
-  id               String  @id @default(auto()) @map("_id") @db.ObjectId
-  chapter_level_id String
-  lecture_id       String?
-  order            Int
-  task_id          String?
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  order Int?    @default(value: 0)
+  desc  String? @default("")
+
+  chapter_level_id String         @db.ObjectId
+  chapter_level    chapter_level? @relation(references: [id], fields: [chapter_level_id], onDelete: Cascade)
+
+  user_stats user_level_stat[]
+  lectures   lecture[]
+  tasks      task_abstract[]
 }
 
-model task {
-  id      String       @id @default(auto()) @map("_id") @db.ObjectId
-  answers TaskAnswers?
-  content String?
-  correct String?
-  display String?
-  tags    String[]
-  title   String
-  type    String
+// Lecture in level
+model lecture {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  content      String
+  created_at   DateTime? @default(value: now()) @db.Date
+  updated_at   DateTime? @updatedAt @db.Date
+  created_by   String?   @db.ObjectId
+  is_draft     Boolean   @default(value: true)
+  time_to_read Int?      @default(value: 0)
+
+  level_content_id String         @db.ObjectId
+  level_content    level_content? @relation(references: [id], fields: [level_content_id], onDelete: Cascade)
 }
 
 model user {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
   accessToken  String
   created_at   DateTime? @default(value: now()) @db.Date
-  email        String?
+  email        String?   @unique
   expires      DateTime? @db.Date
   github_id    String?
   google_id    String?
   image_github String?
-  last_log_in  DateTime? @db.Date
+  last_log_in  DateTime? @updatedAt @db.Date
   name         String
+
+  stat         user_level_stat[]
+  author_tasks task_abstract[]
 }
 
+// User statistics by level_content
 model user_level_stat {
-  id                 String           @id @default(auto()) @map("_id") @db.ObjectId
-  attemp_count       Int?             @default(value: 0)
-  end_at             DateTime?        @db.Date
-  is_complete        Boolean?         @default(value: false)
-  level_content_id   String
-  pause_at           DateTime[]       @default(value: [])
-  start_at           DateTime?        @default(value: now()) @db.Date
-  user_id            String
-  browsers           String[]         @default(value: [])
-  devices            String[]         @default(value: [])
-  task_wrong_answers TaskWrongAnswers?
+  id                 String     @id @default(auto()) @map("_id") @db.ObjectId
+  attemp_count       Int?       @default(value: 1)
+  end_at             DateTime?  @db.Date
+  is_complete        Boolean?   @default(value: false)
+  pause_at           DateTime[] @default([])
+  start_at           DateTime?  @default(value: now()) @db.Date
+  browsers           String[]   @default([])
+  devices            String[]   @default([])
+  task_wrong_answers Json
+
+  user_id String @db.ObjectId
+  author  user   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+  level_content_id String         @db.ObjectId
+  level_content    level_content? @relation(references: [id], fields: [level_content_id], onDelete: Cascade)
+
+  chapter_level_id String?        @db.ObjectId
+  chapter_level    chapter_level? @relation(references: [id], fields: [chapter_level_id], onDelete: SetNull)
+
+  chapter_id String?  @db.ObjectId
+  chapter    chapter? @relation(references: [id], fields: [chapter_level_id], onDelete: SetNull)
+}
+
+//
+// Tasks as Abstract
+//
+
+model task_abstract {
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+  name               String // for search
+  title              String?
+  type               TypeTask
+  display            Display   @default(LIST)
+  is_archive         Boolean?  @default(value: true)
+  difficulty         Int?      @default(0)
+  total_solved       Int?      @default(0)
+  successful_solved  Int?      @default(0)
+  successful_percent Float?    @default(0.00)
+  created_at         DateTime? @default(value: now()) @db.Date
+  tags               String[]  @default([])
+
+  created_by String @db.ObjectId
+  author     user?  @relation(references: [id], fields: [created_by], onDelete: Cascade)
+
+  level_content_id String        @db.ObjectId
+  level_content    level_content @relation(references: [id], fields: [level_content_id], onDelete: Cascade)
+
+  tasks_choice      task_choice[]
+  tasks_fill_blanks task_fill_blanks[]
+  task_input        task_input[]
+}
+
+// Form of display task e.g. list
+enum Display {
+  LIST
+}
+
+enum TypeTask {
+  TASK_MATCHING
+  FILL_BLANKS
+  SORTING
+  CHOICE
+  INPUT
+}
+
+model task_choice {
+  id      String      @id @default(auto()) @map("_id") @db.ObjectId
+  content String
+  answers TaskAnswers
+
+  task_abstract_id String         @db.ObjectId
+  task_abstract    task_abstract? @relation(references: [id], fields: [task_abstract_id], onDelete: Cascade)
+}
+
+model task_fill_blanks {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  content     String
+  answers     String[]
+  template    String?
+  rightAnswer String?
+
+  task_abstract_id String         @db.ObjectId
+  task_abstract    task_abstract? @relation(references: [id], fields: [task_abstract_id], onDelete: Cascade)
+}
+
+model task_input {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  content String
+  answers String
+
+  task_abstract_id String         @db.ObjectId
+  task_abstract    task_abstract? @relation(references: [id], fields: [task_abstract_id], onDelete: Cascade)
 }

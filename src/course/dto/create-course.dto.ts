@@ -1,11 +1,24 @@
-import {ApiProperty} from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateCourseDto {
 
-  @ApiProperty({ required: false })
-  desc: string;
+  @ApiProperty({
+      description: "Description of course",
+      required: false,
+      type: String,
+      nullable: true,
+      example: "This is  best TODO of all TODO !!"
+    }
+  )
+  desc: string | null;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({
+    description: "Name of course",
+    required: true,
+    type: String,
+    nullable: false,
+    example: "It's TODO app"
+  })
   title: string;
 
 }

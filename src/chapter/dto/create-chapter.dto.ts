@@ -2,16 +2,41 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateChapterDto {
 
-  @ApiProperty({ required: true })
+  @ApiProperty({
+    description: "Name of chapter",
+    required: true,
+    type: String,
+    nullable: false,
+    example: "Css in the web"
+  })
   title: string;
 
-  @ApiProperty({ required: false })
-  desc: string;
+  @ApiProperty({
+    description: "Description of chapter",
+    required: false,
+    type: String,
+    nullable: true,
+    example: "How work css in the web....."
+  })
+  desc: string | null;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({
+    description: "Course ID",
+    required: true,
+    type: String,
+    nullable: true,
+    example: "64d63c73980ffe56f1c0c2fd"
+  })
   course_id: string;
 
-  @ApiProperty({ required: false })
-  order: number;
+  @ApiProperty({
+    description: "Order of chapters in one course. Autoincrement by course",
+    required: false,
+    type: Number,
+    nullable: true,
+    default: 0,
+
+  })
+  order: number | null;
 
 }
