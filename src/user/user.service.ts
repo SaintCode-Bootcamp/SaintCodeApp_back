@@ -17,8 +17,12 @@ export class UserService {
     return this.prisma.user.findMany();
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     return this.prisma.user.findUnique({ where: { id } });
+  }
+
+  async findByUsername(username: string) {
+    return this.prisma.user.findUnique({ where: { username } });
   }
 
   findToken(token: string) {
@@ -142,6 +146,21 @@ export class UserService {
       "chaptersStat": chapters
     };
   }
+
+  findUserBySocialID(githubID: string = null, googleID: string = null){
+    return this.prisma.user.findFirst({
+      where: {
+        OR: [
+          {
+            github_id: githubID
+          },
+          {
+            google_id: googleID
+          }
+        ]
+      }
+    })
+ }
 
 
 }

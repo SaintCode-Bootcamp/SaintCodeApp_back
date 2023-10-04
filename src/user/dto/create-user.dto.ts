@@ -76,12 +76,30 @@ export class CreateUserDto {
   last_log_in: Date;
 
   @ApiProperty({
-    description: "Username or really name",
+    description: "Really name",
     required: true,
     type: String,
     nullable: false,
     example: "Andrei"
   })
   name: string;
+
+  @ApiProperty({
+    description: "Username ",
+    required: false,
+    type: String,
+    nullable: false,
+    example: "Andrei"
+  })
+  username: string;
+
+  @ApiProperty({
+    description: "Username ",
+    required: false,
+    type: String,
+    nullable: false,
+    example: "Andrei"
+  })
+  password: string;
 
 }
