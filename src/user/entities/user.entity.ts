@@ -91,4 +91,22 @@ export class UserEntity implements user {
     example: "Andrei"
   })
   name: string;
+
+  @ApiProperty({
+    description: "Username ",
+    required: false,
+    type: String,
+    nullable: false,
+    example: "Andrei"
+  })
+  username: string;
+
+  @ApiProperty({
+    description: "Username ",
+    required: false,
+    type: String,
+    nullable: false,
+    example: "Andrei"
+  })
+  password: string;
 }
