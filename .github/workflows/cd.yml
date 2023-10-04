@@ -34,4 +34,4 @@ jobs:
             npm run build
             npx prisma generate
             npm install --only=prod
-            pm2 start dist/src/main.js --name api
+            pm2 restart dist/src/main.js --name api
