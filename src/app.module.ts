@@ -14,9 +14,11 @@ import { TaskFillBlanksModule } from './tasks/task_fill_blanks/task_fill_blanks.
 import { TaskInputModule } from './tasks/task_input/task_input.module';
 import { TaskAbstractModule } from './tasks/task_abstract/task_abstract.module';
 import { AuthModule } from "./auth/auth.module";
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     PrismaModule,
     UserModule,
     UserLevelStatModule,

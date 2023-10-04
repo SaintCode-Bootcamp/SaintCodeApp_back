@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
-import { jwtConstants } from './constants';
 import { AuthController } from './auth.controller';
 import { UserModule } from "../user/user.module";
 
@@ -10,7 +9,7 @@ import { UserModule } from "../user/user.module";
     UserModule,
     JwtModule.register({
       global: true,
-      secret: jwtConstants.secret,
+      secret: process.env.SECRET_JWT,
       signOptions: { expiresIn: '60s' },
     }),
   ],
