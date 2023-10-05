@@ -105,7 +105,9 @@ export class UserService {
   async profile(id: string) {
     const chapters = await this.prisma.chapter.findMany({
       select: {
+        id: true,
         title: true,
+        desc: true,
         chapter_level: {
           select: {
             title: true,
@@ -136,13 +138,15 @@ export class UserService {
           countInChapter = chapter_level.level_content.length;
         }
       });
-      chapter["userProgress"] = countUserProgress;
-      chapter["countInChapter"] = countInChapter;
+      chapter["id"] = chapter.id;
+      chapter["title"] = chapter.title;
+      chapter["desc"] = chapter.desc;
+      chapter["progress"] = Math.round((100/countInChapter) * countUserProgress)
       delete chapter.chapter_level;
     });
     return {
       "profile": await this.findOne(id),
-      "chaptersStat": chapters
+      "chapters": chapters
     };
   }
 
