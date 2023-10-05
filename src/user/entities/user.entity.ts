@@ -1,4 +1,4 @@
-import { user } from "@prisma/client";
+import { Role, user } from "@prisma/client";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class UserEntity implements user {
@@ -9,17 +9,9 @@ export class UserEntity implements user {
   })
   id: string;
 
-  @ApiProperty({
-    description: "Access token of user",
-    required: true,
-    type: String,
-    nullable: false,
-    example: "64de366a980ffe56f1c0c35e"
-  })
-  accessToken: string;
 
   @ApiProperty({
-    description: "Created at date",
+    description: "Дата регистрации пользователя",
     required: false,
     type: Date,
     nullable: true,
@@ -29,8 +21,8 @@ export class UserEntity implements user {
   created_at: Date;
 
   @ApiProperty({
-    description: "E-mail user",
-    required: false,
+    description: "Почта пользователя",
+    required: true,
     type: String,
     nullable: true,
     example: "some@some.ru"
@@ -38,16 +30,7 @@ export class UserEntity implements user {
   email: string;
 
   @ApiProperty({
-    description: "Datetime expires access token ",
-    required: false,
-    type: String,
-    nullable: true,
-    example: "2023-01-01T00:00:00.000+00:00"
-  })
-  expires: Date;
-
-  @ApiProperty({
-    description: "GitHub ID ",
+    description: "GitHub ID",
     required: false,
     type: String,
     nullable: true,
@@ -74,7 +57,7 @@ export class UserEntity implements user {
   image_github: string;
 
   @ApiProperty({
-    description: "Last login time",
+    description: "Дата последней авторизации",
     required: false,
     type: Date,
     nullable: true,
@@ -84,17 +67,17 @@ export class UserEntity implements user {
   last_log_in: Date;
 
   @ApiProperty({
-    description: "Username or really name",
-    required: true,
+    description: "Имя пользователя (для отображения)",
+    required: false,
     type: String,
     nullable: false,
     example: "Andrei"
   })
-  name: string;
+  display_name: string;
 
   @ApiProperty({
-    description: "Username ",
-    required: false,
+    description: "Username",
+    required: true,
     type: String,
     nullable: false,
     example: "Andrei"
@@ -102,11 +85,23 @@ export class UserEntity implements user {
   username: string;
 
   @ApiProperty({
-    description: "Username ",
+    description: "Username",
+    required: true,
+    type: String,
+    nullable: false,
+    example: "test123"
+  })
+  password: string;
+
+  @ApiProperty({
+    description: "Роль пользователя",
     required: false,
     type: String,
     nullable: false,
-    example: "Andrei"
+    default: "USER",
+    example: "USER|ADMIN|MANAGER"
   })
-  password: string;
+
+  role: Role;
+
 }

@@ -30,12 +30,6 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Get("/key/:token")
-  @ApiOkResponse({ type: UserEntity })
-  findToken(@Param("token") token: string) {
-    return this.userService.findToken(token);
-  }
-
   @Patch(":id")
   @ApiOkResponse({ type: UserEntity })
   update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {

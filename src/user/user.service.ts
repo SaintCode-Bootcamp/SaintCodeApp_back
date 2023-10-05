@@ -25,9 +25,6 @@ export class UserService {
     return this.prisma.user.findUnique({ where: { username } });
   }
 
-  findToken(token: string) {
-    return this.prisma.user.findFirst({ where: { accessToken: token } });
-  }
 
   update(id: string, updateUserDto: UpdateUserDto) {
     return this.prisma.user.update({ data: updateUserDto, where: { id } });

@@ -106,19 +106,24 @@ model lecture {
   level_content    level_content? @relation(references: [id], fields: [level_content_id], onDelete: Cascade)
 }
 
+enum Role {
+  USER
+  ADMIN
+  MANAGER
+}
+
 model user {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
-  accessToken  String
   created_at   DateTime? @default(value: now()) @db.Date
-  email        String?   @unique
-  expires      DateTime? @db.Date
-  github_id    String?
-  google_id    String?
+  email        String    @unique
+  github_id    String?   @unique
+  google_id    String?   @unique
   image_github String?
   last_log_in  DateTime? @updatedAt @db.Date
-  name         String
-  username     String?   @unique
-  password     String?   @unique
+  display_name String?
+  username     String    @unique
+  password     String
+  role         Role      @default(USER)
 
   stat         user_level_stat[]
   author_tasks task_abstract[]
