@@ -73,16 +73,16 @@ export class CreateUserDto {
     required: true,
     type: String,
     nullable: false,
-    example: "Andrei"
+    example: "test123"
   })
   username: string;
 
   @ApiProperty({
-    description: "Username",
+    description: "Пароль",
     required: true,
     type: String,
     nullable: false,
-    example: "test123"
+    example: "12345678"
   })
   password: string;
 

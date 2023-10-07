@@ -11,7 +11,7 @@ export class UserService {
   }
 
   async create(@Body() createUserDto: CreateUserDto) {
-    createUserDto.password = await bcrypt.hash(createUserDto.password, 10)
+    createUserDto.password = await bcrypt.hash(createUserDto.password, 10);
     return this.prisma.user.create({ data: createUserDto });
   }
 
@@ -20,7 +20,8 @@ export class UserService {
   }
 
   async findOne(id: string) {
-    return this.prisma.user.findUnique({ where: { id } });
+    let user = await this.prisma.user.findUnique({ where: { id } });
+    return this.exclude(user, "password");
   }
 
   async findByUsername(username: string) {
@@ -103,9 +104,11 @@ export class UserService {
    * }
    */
   async profile(id: string) {
-    const chapters = await this.prisma.chapter.findMany({
+    let chapters = await this.prisma.chapter.findMany({
       select: {
+        id: true,
         title: true,
+        desc: true,
         chapter_level: {
           select: {
             title: true,
@@ -123,6 +126,7 @@ export class UserService {
         }
       }
     });
+
     chapters.map((chapter) => {
       let countUserProgress = 0;
       let countInChapter = 0;
@@ -136,17 +140,31 @@ export class UserService {
           countInChapter = chapter_level.level_content.length;
         }
       });
-      chapter["userProgress"] = countUserProgress;
-      chapter["countInChapter"] = countInChapter;
+      chapter["id"] = chapter.id;
+      chapter["title"] = chapter.title;
+      chapter["desc"] = chapter.desc;
+      chapter["progress"] = Math.round((100 / countInChapter) * countUserProgress);
       delete chapter.chapter_level;
     });
     return {
       "profile": await this.findOne(id),
-      "chaptersStat": chapters
+      "chapters": chapters
     };
   }
 
-  findUserBySocialID(githubID: string = null, googleID: string = null){
+  /**
+   * Delete field from Object
+   * @param object
+   * @param keys
+   */
+  exclude(object, ...keys) {
+    for (let key of keys) {
+      delete object[key];
+    }
+    return object;
+  }
+
+  findUserBySocialID(githubID: string = null, googleID: string = null) {
     return this.prisma.user.findFirst({
       where: {
         OR: [
@@ -158,8 +176,8 @@ export class UserService {
           }
         ]
       }
-    })
- }
+    });
+  }
 
 
 }

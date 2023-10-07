@@ -85,11 +85,11 @@ export class UserEntity implements user {
   username: string;
 
   @ApiProperty({
-    description: "Username",
+    description: "Пароль",
     required: true,
     type: String,
     nullable: false,
-    example: "test123"
+    example: "12345678"
   })
   password: string;
 
