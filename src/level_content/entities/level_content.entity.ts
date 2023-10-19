@@ -1,4 +1,4 @@
-import { level_content } from "@prisma/client";
+import { ContentType, level_content } from "@prisma/client";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class LevelContentEntity implements level_content {
@@ -36,5 +36,14 @@ export class LevelContentEntity implements level_content {
     example: "Описание, если нужно"
   })
   desc: string | null;
+
+  @ApiProperty({
+    description: "Тип (лекция или задание)",
+    required: true,
+    type: String,
+    nullable: true,
+    example: "LECTURE| TASK"
+  })
+  type: ContentType;
 
 }
