@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { ContentType } from "@prisma/client";
 export class CreateLevelContentDto {
 
   @ApiProperty({
@@ -28,5 +29,14 @@ export class CreateLevelContentDto {
     example: "Описание, если нужно"
   })
   desc: string | null;
+
+  @ApiProperty({
+    description: "Тип (лекция или задание)",
+    required: true,
+    type: String,
+    nullable: true,
+    example: "LECTURE| TASK"
+  })
+  type: ContentType;
 
 }

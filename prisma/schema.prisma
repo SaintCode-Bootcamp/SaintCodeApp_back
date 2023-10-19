@@ -77,11 +77,16 @@ model chapter_level {
 
 // Content type of levels - lectures and tasks
 // one of lecture_id or task_id must be used
+enum ContentType {
+  LECTURE
+  TASK
+}
 
 model level_content {
   id    String  @id @default(auto()) @map("_id") @db.ObjectId
   order Int?    @default(value: 0)
   desc  String? @default("")
+  type ContentType @default(LECTURE)
 
   chapter_level_id String         @db.ObjectId
   chapter_level    chapter_level? @relation(references: [id], fields: [chapter_level_id], onDelete: Cascade)
