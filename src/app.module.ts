@@ -20,6 +20,7 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     ConfigModule.forRoot(),
     PrismaModule,
+    AuthModule,
     UserModule,
     UserLevelStatModule,
     CourseModule,
@@ -30,8 +31,7 @@ import { ConfigModule } from '@nestjs/config';
     TaskChoiceModule,
     TaskFillBlanksModule,
     TaskInputModule,
-    TaskAbstractModule,
-    AuthModule],
+    TaskAbstractModule],
   controllers: [AppController],
   providers: [AppService]
 })
