@@ -15,6 +15,7 @@ import { TaskInputModule } from './tasks/task_input/task_input.module';
 import { TaskAbstractModule } from './tasks/task_abstract/task_abstract.module';
 import { AuthModule } from "./auth/auth.module";
 import { ConfigModule } from '@nestjs/config';
+import { CodeCheckerModule } from './code_checker/code_checker.module';
 
 @Module({
   imports: [
@@ -31,7 +32,8 @@ import { ConfigModule } from '@nestjs/config';
     TaskChoiceModule,
     TaskFillBlanksModule,
     TaskInputModule,
-    TaskAbstractModule],
+    TaskAbstractModule,
+    CodeCheckerModule],
   controllers: [AppController],
   providers: [AppService]
 })
